@@ -7,7 +7,7 @@ export const storageService = {
     pdfBuffer: Buffer,
     fileName: string
   ): Promise<string> {
-    // force into a plain ArrayBuffer — avoids SharedArrayBuffer type conflict
+    // Force into a plain ArrayBuffer — avoids SharedArrayBuffer type conflict
     const arrayBuffer = pdfBuffer.buffer.slice(
       pdfBuffer.byteOffset,
       pdfBuffer.byteOffset + pdfBuffer.byteLength
@@ -22,11 +22,12 @@ export const storageService = {
       throw new Error(`Upload failed: ${response.error.message}`);
     }
 
-    if (!response.data?.url) {
+    // FIXED: Changed .url to .ufsUrl for Uploadthing v9 compatibility
+    if (!response.data?.ufsUrl) {
       throw new Error("Upload succeeded but no URL returned");
     }
 
-    return response.data.url;
+    return response.data.ufsUrl;
   },
 
   async deleteFile(url: string): Promise<void> {

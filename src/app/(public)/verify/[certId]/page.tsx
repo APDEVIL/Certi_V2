@@ -1,5 +1,3 @@
-"use client";
-
 import { verificationService } from "@/server/services/verification.service";
 import { Building2, Calendar, ExternalLink, ShieldCheck } from "lucide-react";
 import Link from "next/link";
@@ -12,6 +10,8 @@ interface Props {
 
 export default async function PublicCertificatePage({ params }: Props) {
   const { certId } = await params;
+  
+  // This now runs securely on the server
   const cert = await verificationService.verify(certId);
 
   if (!cert) notFound();
